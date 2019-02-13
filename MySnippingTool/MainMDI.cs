@@ -54,7 +54,16 @@ namespace MySnippingTool
                 }
 
             }
-            snippingToolFilePath = !Environment.Is64BitProcess ? @"C:\windows\sysnative\SnippingTool.exe" : @"C:\windows\system32\SnippingTool.exe";
+
+            if (File.Exists(@"C:\windows\sysnative\SnippingTool.exe"))
+                snippingToolFilePath = @"C:\windows\sysnative\SnippingTool.exe";
+            else if (File.Exists(@"C:\windows\system32\SnippingTool.exe"))
+                snippingToolFilePath = @"C:\windows\system32\SnippingTool.exe";
+            else
+            {
+                MessageBox.Show("SnippingTool does not exist in the windows, please install it first. Application is closing...");
+                this.Close();
+            }
 
 
         }
@@ -171,15 +180,15 @@ namespace MySnippingTool
 
                 }
             }
-            catch 
+            catch
             {
                 this.WindowState = mainState;
                 this.BringToFront();
-                this.TopMost = true;       
-                
-                MessageBox.Show(this, "Error is occured... Please try again !" );
-            }            
-            
+                this.TopMost = true;
+
+                MessageBox.Show(this, "Error is occured... Please try again !");
+            }
+
         }
 
         private void Form_KeyDown(object sender, KeyEventArgs e)
