@@ -52,7 +52,7 @@ namespace MySnippingTool
                         fi.Delete();
                     }
                 }
-
+                
             }
 
             if (File.Exists(@"C:\windows\sysnative\SnippingTool.exe"))
