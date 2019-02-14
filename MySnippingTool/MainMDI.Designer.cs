@@ -36,6 +36,8 @@
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.SaveAlltoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonClose = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCloseAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripAboutButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -54,6 +56,8 @@
             this.saveToolStripButton,
             this.toolStripSeparator1,
             this.SaveAlltoolStripButton,
+            this.toolStripButtonClose,
+            this.toolStripButtonCloseAll,
             this.toolStripAboutButton,
             this.toolStripSeparator2});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
@@ -107,7 +111,28 @@
             this.SaveAlltoolStripButton.Size = new System.Drawing.Size(24, 24);
             this.SaveAlltoolStripButton.Text = "Save All";
             this.SaveAlltoolStripButton.ToolTipText = "Save All";
-            this.SaveAlltoolStripButton.Visible = false;
+            this.SaveAlltoolStripButton.Click += new System.EventHandler(this.SaveAlltoolStripButton_Click);
+            // 
+            // toolStripButtonClose
+            // 
+            this.toolStripButtonClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonClose.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonClose.Image")));
+            this.toolStripButtonClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonClose.Name = "toolStripButtonClose";
+            this.toolStripButtonClose.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButtonClose.Text = "Close";
+            this.toolStripButtonClose.ToolTipText = "Close";
+            this.toolStripButtonClose.Click += new System.EventHandler(this.toolStripButtonClose_Click);
+            // 
+            // toolStripButtonCloseAll
+            // 
+            this.toolStripButtonCloseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonCloseAll.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCloseAll.Image")));
+            this.toolStripButtonCloseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCloseAll.Name = "toolStripButtonCloseAll";
+            this.toolStripButtonCloseAll.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButtonCloseAll.Text = "Close All";
+            this.toolStripButtonCloseAll.Click += new System.EventHandler(this.toolStripButtonCloseAll_Click);
             // 
             // toolStripAboutButton
             // 
@@ -154,6 +179,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainMDI";
             this.Text = "My Snipping Tool";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMDI_FormClosing);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -175,6 +201,8 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripButton toolStripAboutButton;
         private System.Windows.Forms.ToolStripButton SaveAlltoolStripButton;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCloseAll;
+        private System.Windows.Forms.ToolStripButton toolStripButtonClose;
     }
 }
 

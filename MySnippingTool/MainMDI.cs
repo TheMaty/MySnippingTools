@@ -65,6 +65,11 @@ namespace MySnippingTool
                 this.Close();
             }
 
+            var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var settings = configFile.AppSettings.Settings;
+            if (settings["Directory"] != null)
+                toolStripStatusLabel.Text = settings["Directory"].Value == "" ? "Please select folder for the storing images" : $" Selected Folder : {settings["Directory"].Value}";
+
 
         }
 
@@ -140,7 +145,7 @@ namespace MySnippingTool
                             CustomPictureBox pictureBox = new CustomPictureBox();
                             pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
                             pictureBox.Location = new System.Drawing.Point(0, 0);
-                            pictureBox.Name = $"pictureBox_{DateTime.Now.ToString("yyyyMMddmmhh")}";
+                            pictureBox.Name = $"pictureBox_{DateTime.Now.ToString("yyyyMMddmmhhfff")}";
                             pictureBox.TabIndex = 0;
                             pictureBox.TabStop = false;
                             pictureBox.Image = Image.FromFile(fileName);
@@ -155,11 +160,14 @@ namespace MySnippingTool
                             form.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
                             form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
                             form.ClientSize = pictureBox.ClientSize;
+                            form.Text = "*";
+                            form.Name = $"Form_{DateTime.Now.ToString("yyyyMMddmmhhfff")} * ";
                             form.Controls.Add(pictureBox);
-                            form.Text = form.Name = $"Form_{DateTime.Now.ToString("yyyyMMddmmhh")} * ";
                             form.ResumeLayout(false);
                             form.Icon = this.Icon;
                             form.MaximizeBox = false;
+                            form.MinimizeBox = false;
+                            form.ControlBox = false;
                             form.FormBorderStyle = FormBorderStyle.FixedDialog;
                             form.KeyDown += Form_KeyDown;
 
@@ -167,15 +175,25 @@ namespace MySnippingTool
 
                             form.Show();
 
+                            this.ActiveControl = form;                           
+
                             errorCount = 0;
 
                             this.WindowState = mainState;
-                            this.BringToFront();
+                            
+                            //weird workaround
                             this.TopMost = true;
+                            //it locks other forms to be front later on so
                             this.TopMost = false;
+                            //because
+                            //this.TopLevel = true;
+                            //does not work.
+
+                            if (form.ClientSize.Width <= 131)
+                                MessageBox.Show("very small object is drawn. Image will be adjusted for the window but original size will be kept in case of recording", "Warning", MessageBoxButtons.OK);
 
                             return;
-                        }
+                        }   
                     }
 
                 }
@@ -196,6 +214,11 @@ namespace MySnippingTool
             if (e.KeyCode == Keys.C && e.Modifiers == Keys.Control)
             {
                 Clipboard.SetImage(((PictureBox)((Form)sender).Controls[0]).Image);
+            }
+
+            if (e.KeyCode == Keys.S && e.Modifiers == Keys.Control)
+            {
+                SaveToolStripMenuItem_Click(sender, e);
             }
         }
 
@@ -227,11 +250,12 @@ namespace MySnippingTool
                 }
                 configFile.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+                toolStripStatusLabel.Text = $" Selected Folder : {settings["Directory"].Value}";
             }
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
             var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var settings = configFile.AppSettings.Settings;
             if (settings["Directory"] == null)
@@ -270,6 +294,7 @@ namespace MySnippingTool
                         saveFileDialog.Filter = "JPeg Image|*.jpg";
                         saveFileDialog.DefaultExt = "jpg";
                         saveFileDialog.Title = "Save an Image File...";
+                        saveFileDialog.FileName = $"Img_{ DateTime.Now.ToString("yyyyMMddmmhhssfff")}.jpg";
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {                           
                             pictureBox.Image.Save(saveFileDialog.FileName);
@@ -293,6 +318,70 @@ namespace MySnippingTool
         private void toolStripAboutButton_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Created by Muhammet ATALAY - http://www.muhammetatalay.com");
+        }
+
+        private void MainMDI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            bool hasUnsavedForm = false;
+
+            foreach(Form form in this.MdiChildren)
+            {
+                hasUnsavedForm = form.Name.Contains("*") ? true : false;
+            }
+
+            if (hasUnsavedForm)
+            {
+                var window = MessageBox.Show(
+                    "Close the window?",
+                    "Are you sure?",
+                    MessageBoxButtons.YesNo);
+
+                e.Cancel = (window == DialogResult.No);
+            }
+        }
+
+        private void SaveAlltoolStripButton_Click(object sender, EventArgs e)
+        {
+            foreach(Form form in this.MdiChildren)
+            {
+                this.ActiveControl = form;
+                SaveToolStripMenuItem_Click(form, null);
+            }
+
+            MessageBox.Show(this.MdiChildren.Count().ToString() + " images created to the selected path successfully","Notification");
+        }
+
+        private void toolStripButtonClose_Click(object sender, EventArgs e)
+        {
+            if (this.ActiveControl is Form)
+            {
+                if (this.ActiveControl.Name.Contains("*"))
+                {
+                    var window = MessageBox.Show(
+                       "Close the window?",
+                       "Are you sure?",
+                       MessageBoxButtons.YesNo);
+                    if (window == DialogResult.No)
+                        return;
+                }
+
+                ((Form)this.ActiveControl).Close();
+            }
+            else
+            {
+                MessageBox.Show("Select a form to close.");
+            }
+            
+        }
+
+        private void toolStripButtonCloseAll_Click(object sender, EventArgs e)
+        {
+            foreach (Form form in this.MdiChildren)
+            {
+                this.ActiveControl = form;
+
+                toolStripButtonClose_Click(null, null);
+            }
         }
     }
 }
