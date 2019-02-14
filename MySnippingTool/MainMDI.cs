@@ -75,6 +75,7 @@ namespace MySnippingTool
 
         private void ShowNewForm(object sender, EventArgs e)
         {
+            
             FormWindowState mainState = this.WindowState;
 
             //cleaning clipboard
@@ -113,7 +114,7 @@ namespace MySnippingTool
             {
                 using (Process snippingToolProcess = new Process())
                 {                   
-                    // Get the process start information of notepad.
+                    // Get the process start information of snippingTool.
                     ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(snippingToolFilePath, "/clip");
 
                     // Assign 'StartInfo' of notepad to 'StartInfo' of 'Process' object.
