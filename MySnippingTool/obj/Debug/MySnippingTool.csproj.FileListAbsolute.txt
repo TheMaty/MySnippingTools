@@ -1,0 +1,11 @@
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\MySnippingTool.exe.config
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\MySnippingTool.exe
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\MySnippingTool.pdb
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.MainMDI.resources
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.PleaseWait.resources
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.Properties.Resources.resources
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csproj.GenerateResource.cache
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csproj.CoreCompileInputs.cache
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.exe
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.pdb
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csprojAssemblyReference.cache

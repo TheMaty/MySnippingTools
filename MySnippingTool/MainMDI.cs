@@ -275,8 +275,7 @@ namespace MySnippingTool
                     // Determine the active child form.  
                     Form activeChild = this.ActiveMdiChild;
 
-                    // If there is an active child form, find the active control, which  
-                    // in this example should be a RichTextBox.  
+                    // If there is an active child form, find the active control    
                     if (activeChild != null)
                     {
                         CustomPictureBox pictureBox = (CustomPictureBox)activeChild.Controls[0];
