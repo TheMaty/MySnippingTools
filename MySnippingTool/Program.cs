@@ -18,7 +18,7 @@ namespace MySnippingTool
             //check if the application runs once at a time
             if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
             {
-                MessageBox.Show("Another instance of My Snipping Tool is already running. Only one instance of this application is allowed","MySnippingTool");
+                MessageBox.Show("Another instance of My Snipping Tool is already running. Only one instance of this application is allowed at a time.", "MySnippingTool runs check", MessageBoxButtons.OK);
                 return;
             }
 
