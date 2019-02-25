@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMDI));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.NewRecordToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.StopToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -43,6 +45,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +55,8 @@
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripButton,
+            this.NewRecordToolStripButton,
+            this.StopToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
             this.toolStripSeparator1,
@@ -74,7 +79,30 @@
             this.newToolStripButton.Name = "newToolStripButton";
             this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
             this.newToolStripButton.Text = "New";
+            this.newToolStripButton.ToolTipText = "New Image";
             this.newToolStripButton.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // NewRecordToolStripButton
+            // 
+            this.NewRecordToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NewRecordToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("NewRecordToolStripButton.Image")));
+            this.NewRecordToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewRecordToolStripButton.Name = "NewRecordToolStripButton";
+            this.NewRecordToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.NewRecordToolStripButton.Text = "New";
+            this.NewRecordToolStripButton.ToolTipText = "New Record";
+            this.NewRecordToolStripButton.Click += new System.EventHandler(this.NewRecordToolStripButton_Click);
+            // 
+            // StopToolStripButton
+            // 
+            this.StopToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StopToolStripButton.Enabled = false;
+            this.StopToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("StopToolStripButton.Image")));
+            this.StopToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopToolStripButton.Name = "StopToolStripButton";
+            this.StopToolStripButton.Size = new System.Drawing.Size(24, 24);
+            this.StopToolStripButton.Text = "Stop";
+            this.StopToolStripButton.Click += new System.EventHandler(this.StopToolStripButton_Click);
             // 
             // openToolStripButton
             // 
@@ -180,6 +208,7 @@
             this.Name = "MainMDI";
             this.Text = "My Snipping Tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMDI_FormClosing);
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.MainMDI_Layout);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -203,6 +232,9 @@
         private System.Windows.Forms.ToolStripButton SaveAlltoolStripButton;
         private System.Windows.Forms.ToolStripButton toolStripButtonCloseAll;
         private System.Windows.Forms.ToolStripButton toolStripButtonClose;
+        private System.Windows.Forms.ToolStripButton NewRecordToolStripButton;
+        private System.Windows.Forms.ToolStripButton StopToolStripButton;
+        private Gma.UserActivityMonitor.GlobalEventProvider globalEventProvider1;
     }
 }
 

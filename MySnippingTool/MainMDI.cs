@@ -29,6 +29,16 @@ namespace MySnippingTool
 
         private int errorCount = 0;
         private string snippingToolFilePath = "";
+
+        private Recorder rec = null;
+
+        private Point videoCapturePanelLocation;
+        private Size videoCapturePanelSize;
+
+        public FormWindowState mainState;
+
+        string fileName = "";
+
         public MainMDI()
         {
             InitializeComponent();
@@ -73,11 +83,8 @@ namespace MySnippingTool
 
         }
 
-        private void ShowNewForm(object sender, EventArgs e)
+        private void GetReadyClipboard()
         {
-            
-            FormWindowState mainState = this.WindowState;
-
             //cleaning clipboard
             IntPtr hwnd = new IntPtr();
 
@@ -104,100 +111,76 @@ namespace MySnippingTool
                     this.Refresh();
                 }
             }
-
             waitForm.Close();
             waitForm.Dispose();
+        }
+        private void ShowNewForm(object sender, EventArgs e)
+        {
+            mainState = this.WindowState;
+            this.WindowState = FormWindowState.Minimized;
+            GetReadyClipboard();
             this.Refresh();
-
 
             try
             {
-                using (Process snippingToolProcess = new Process())
-                {                   
-                    // Get the process start information of snippingTool.
-                    ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(snippingToolFilePath, "/clip");
+                Image clipboardImg = Operations.CaptureScreen(snippingToolFilePath);
+                fileName = $"Temporary Images\\{Guid.NewGuid().ToString()}.jpg";
 
-                    // Assign 'StartInfo' of notepad to 'StartInfo' of 'Process' object.
-                    snippingToolProcess.StartInfo = myProcessStartInfo;
+                clipboardImg.Save(fileName, ImageFormat.Jpeg);
 
+                // 
+                // pictureBox
+                // 
+                CustomPictureBox pictureBox = new CustomPictureBox();
+                pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+                pictureBox.Location = new System.Drawing.Point(0, 0);
+                pictureBox.Name = $"pictureBox_{DateTime.Now.ToString("yyyyMMddmmhhfff")}";
+                pictureBox.TabStop = false;
+                pictureBox.Image = Image.FromFile(fileName);
+                pictureBox.ClientSize = pictureBox.Image.Size;
+                pictureBox.Paint += PictureBox_Paint;
+                pictureBox.isItSaved = false;
 
-                    this.WindowState = FormWindowState.Minimized;
+                // 
+                // Form
+                // 
+                Form form = new Form();
+                form.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+                form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+                form.ClientSize = pictureBox.ClientSize;
+                form.Text = "*";
+                form.Name = $"Form_{DateTime.Now.ToString("yyyyMMddmmhhfff")} * ";
+                form.Controls.Add(pictureBox);
+                form.ResumeLayout(false);
+                form.Icon = this.Icon;
+                form.MaximizeBox = false;
+                form.MinimizeBox = false;
+                form.ControlBox = false;
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.KeyDown += Form_KeyDown;
 
-                    // Create a SnippingTool.
-                    snippingToolProcess.Start();
-                    
+                form.MdiParent = this;
 
-                    //save clipboard to a file in temporary folder
-                    //Process can not capture exit message of the snipping tool so "while" loop saves us 
-                    while (true)
-                    {
-                        if (Clipboard.ContainsImage())
-                        {
-                            string fileName = $"Temporary Images\\{Guid.NewGuid().ToString()}.jpg";
+                form.Show();
 
-                            Clipboard.GetImage().Save(fileName, ImageFormat.Jpeg);
+                this.ActiveControl = form;
 
-                            //Close it
-                            snippingToolProcess.Close();
+                errorCount = 0;
 
-                            // 
-                            // pictureBox
-                            // 
-                            CustomPictureBox pictureBox = new CustomPictureBox();
-                            pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-                            pictureBox.Location = new System.Drawing.Point(0, 0);
-                            pictureBox.Name = $"pictureBox_{DateTime.Now.ToString("yyyyMMddmmhhfff")}";
-                            pictureBox.TabIndex = 0;
-                            pictureBox.TabStop = false;
-                            pictureBox.Image = Image.FromFile(fileName);
-                            pictureBox.ClientSize = pictureBox.Image.Size;
-                            pictureBox.Paint += PictureBox_Paint;
-                            pictureBox.isItSaved = false;
+                this.WindowState = mainState;
 
-                            // 
-                            // Form
-                            // 
-                            Form form = new Form();
-                            form.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-                            form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-                            form.ClientSize = pictureBox.ClientSize;
-                            form.Text = "*";
-                            form.Name = $"Form_{DateTime.Now.ToString("yyyyMMddmmhhfff")} * ";
-                            form.Controls.Add(pictureBox);
-                            form.ResumeLayout(false);
-                            form.Icon = this.Icon;
-                            form.MaximizeBox = false;
-                            form.MinimizeBox = false;
-                            form.ControlBox = false;
-                            form.FormBorderStyle = FormBorderStyle.FixedDialog;
-                            form.KeyDown += Form_KeyDown;
+                //weird workaround
+                this.TopMost = true;
+                //it locks other forms to be front later on so
+                this.TopMost = false;
+                //because
+                //this.TopLevel = true;
+                //does not work.
 
-                            form.MdiParent = this;
+                if (form.ClientSize.Width <= 131)
+                    MessageBox.Show("very small object is drawn. Image will be adjusted for the window but original size will be kept in case of recording", "Warning", MessageBoxButtons.OK);
 
-                            form.Show();
-
-                            this.ActiveControl = form;                           
-
-                            errorCount = 0;
-
-                            this.WindowState = mainState;
-                            
-                            //weird workaround
-                            this.TopMost = true;
-                            //it locks other forms to be front later on so
-                            this.TopMost = false;
-                            //because
-                            //this.TopLevel = true;
-                            //does not work.
-
-                            if (form.ClientSize.Width <= 131)
-                                MessageBox.Show("very small object is drawn. Image will be adjusted for the window but original size will be kept in case of recording", "Warning", MessageBoxButtons.OK);
-
-                            return;
-                        }   
-                    }
-
-                }
+                return;
             }
             catch
             {
@@ -273,34 +256,69 @@ namespace MySnippingTool
                 }
                 else
                 {
-                    // Determine the active child form.  
+                    // Determine the active child form  
                     Form activeChild = this.ActiveMdiChild;
-
+                    
                     // If there is an active child form, find the active control    
                     if (activeChild != null)
                     {
-                        CustomPictureBox pictureBox = (CustomPictureBox)activeChild.Controls[0];
-                        if (pictureBox.isItSaved)
-                        {
-                            MessageBox.Show("It is already saved !");
-                            return;
-                        }
                         SaveFileDialog saveFileDialog = new SaveFileDialog();
-                        saveFileDialog.AddExtension = true;
-                        saveFileDialog.InitialDirectory = settings["Directory"].Value;
-                        saveFileDialog.AddExtension = true;
-                        saveFileDialog.CheckPathExists = true;
-                        saveFileDialog.CheckFileExists = false;
-                        saveFileDialog.Filter = "JPeg Image|*.jpg";
-                        saveFileDialog.DefaultExt = "jpg";
-                        saveFileDialog.Title = "Save an Image File...";
-                        saveFileDialog.FileName = $"Img_{ DateTime.Now.ToString("yyyyMMddmmhhssfff")}.jpg";
-                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                        {                           
-                            pictureBox.Image.Save(saveFileDialog.FileName);
-                            pictureBox.isItSaved = true;
-                            pictureBox.Refresh();
-                            activeChild.Text = activeChild.Name = Path.GetFileName(saveFileDialog.FileName);
+
+                        if (activeChild.GetType() != typeof(DisplayVideoForm))
+                        {
+                            #region Save Image 
+
+                            CustomPictureBox pictureBox = (CustomPictureBox)activeChild.Controls[0];
+                            if (pictureBox.isItSaved)
+                            {
+                                MessageBox.Show("It is already saved !");
+                                return;
+                            }
+                            saveFileDialog.AddExtension = true;
+                            saveFileDialog.InitialDirectory = settings["Directory"].Value;
+                            saveFileDialog.AddExtension = true;
+                            saveFileDialog.CheckPathExists = true;
+                            saveFileDialog.CheckFileExists = false;
+                            saveFileDialog.Filter = "JPeg Image|*.jpg";
+                            saveFileDialog.DefaultExt = "jpg";
+                            saveFileDialog.Title = "Save an Image File...";
+                            saveFileDialog.FileName = $"Img_{ DateTime.Now.ToString("yyyyMMddmmhhssfff")}.jpg";
+                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                pictureBox.Image.Save(saveFileDialog.FileName);
+                                pictureBox.isItSaved = true;
+                                pictureBox.Refresh();
+                                activeChild.Text = activeChild.Name = Path.GetFileName(saveFileDialog.FileName);
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            #region Save Movie
+                            AxWMPLib.AxWindowsMediaPlayer player = (AxWMPLib.AxWindowsMediaPlayer)activeChild.Controls[0];
+
+                            if (((DisplayVideoForm)activeChild).isItSaved)
+                            {
+                                MessageBox.Show("It is already saved !");
+                                return;
+                            }
+                            saveFileDialog.AddExtension = true;
+                            saveFileDialog.InitialDirectory = settings["Directory"].Value;
+                            saveFileDialog.AddExtension = true;
+                            saveFileDialog.CheckPathExists = true;
+                            saveFileDialog.CheckFileExists = false;
+                            saveFileDialog.Filter = "Movie|*.avi";
+                            saveFileDialog.DefaultExt = "avi";
+                            saveFileDialog.Title = "Save an AVI File...";
+                            saveFileDialog.FileName = $"Video_{ DateTime.Now.ToString("yyyyMMddmmhhssfff")}.avi";
+                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                File.Copy(player.URL, saveFileDialog.FileName);
+                                ((DisplayVideoForm)activeChild).isItSaved = true;
+                                activeChild.Refresh();
+                                activeChild.Text = activeChild.Name = Path.GetFileName(saveFileDialog.FileName);
+                            }
+                            #endregion
                         }
                     }
                     else
@@ -382,6 +400,113 @@ namespace MySnippingTool
 
                 toolStripButtonClose_Click(null, null);
             }
+        }
+
+        private void NewRecordToolStripButton_Click(object sender, EventArgs e)
+        {
+            mainState = this.WindowState;
+            this.WindowState = FormWindowState.Minimized;
+            GetReadyClipboard();
+            this.Refresh();
+
+            fileName = $"Temporary Images\\{Guid.NewGuid().ToString()}.avi";
+            // 
+            // globalEventProvider1 -> add event
+            // 
+            this.globalEventProvider1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseDown);
+            this.globalEventProvider1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseUp);
+
+            Thread t = new Thread(() => Operations.CaptureScreen(snippingToolFilePath)) { IsBackground = true };
+            t.Start();
+
+            Thread t2 = new Thread(() => VideoRecording()) { IsBackground = true };
+            t2.Start();
+
+            NewRecordToolStripButton.Enabled = false;
+            StopToolStripButton.Enabled = true;
+        }
+
+        private void VideoRecording()
+        {
+            while (videoCapturePanelSize.Height <= 0 && videoCapturePanelSize.Width <= 0) { }
+            rec = new Recorder(new RecorderParams(fileName, 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70, videoCapturePanelLocation, videoCapturePanelSize), fileName);
+
+            // 
+            // globalEventProvider1 -> remove event
+            // 
+            this.globalEventProvider1.MouseDown -= new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseDown);
+            this.globalEventProvider1.MouseUp -= new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseUp);
+        }
+
+        public void StopRecord()
+        {
+            rec.Dispose();
+        }
+
+        public void StopToolStripButton_Click(object sender, EventArgs e)
+        {
+            rec.Dispose();
+
+            //display it in the form
+            // 
+            // Form
+            // 
+            DisplayVideoForm form = new DisplayVideoForm();
+            form.filetobePlayed = fileName;
+            form.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            form.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            form.ClientSize = new Size(videoCapturePanelSize.Width + 15,videoCapturePanelSize.Height + 110);
+            form.Text = "*";
+            form.Name = $"Form_{DateTime.Now.ToString("yyyyMMddmmhhfff")} * ";
+            form.ResumeLayout(false);
+            form.Icon = this.Icon;
+            form.MaximizeBox = false;
+            form.MinimizeBox = false;
+            form.ControlBox = false;
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            //form.KeyDown += Form_KeyDown;
+
+            form.MdiParent = this;
+
+            form.Show();
+
+            NewRecordToolStripButton.Enabled = true;
+            StopToolStripButton.Enabled = false;
+
+            this.ActiveControl = form;
+
+            this.WindowState = mainState;
+
+            //weird workaround
+            this.TopMost = true;
+            //it locks other forms to be front later on so
+            this.TopMost = false;
+            //because
+            //this.TopLevel = true;
+            //does not work.
+
+
+            if (videoCapturePanelSize.Width <= 131)
+                MessageBox.Show("very small object is drawn. Video will be adjusted for the window but original size will be kept in case of recording", "Warning", MessageBoxButtons.OK);
+
+
+        }
+
+
+        private void globalEventProvider1_MouseUp(object sender, MouseEventArgs e)
+        {
+            videoCapturePanelSize = new Size(Math.Abs(e.X - videoCapturePanelLocation.X), Math.Abs(e.Y - videoCapturePanelLocation.Y));
+        }
+
+        private void globalEventProvider1_MouseDown(object sender, MouseEventArgs e)
+        {
+            videoCapturePanelLocation = new Point(e.X, e.Y);
+        }
+
+        private void MainMDI_Layout(object sender, LayoutEventArgs e)
+        {
+            if (!NewRecordToolStripButton.Enabled)
+                StopToolStripButton_Click(sender, e);
         }
     }
 }

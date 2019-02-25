@@ -9,3 +9,13 @@ C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnipping
 C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.exe
 C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.pdb
 C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csprojAssemblyReference.cache
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\SharpAvi.dll
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csproj.CopyComplete
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\Gma.UserActivityMonitor.dll
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\Gma.UserActivityMonitor.pdb
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\Interop.WMPLib.dll
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\Interop.WMPLib.dll
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csproj.ResolveComReference.cache
+C:\Users\eatamuh\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.DisplayVideoForm.resources

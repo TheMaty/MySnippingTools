@@ -1,0 +1,5 @@
+C:\Users\eatamuh\source\repos\DirectX.Capture.v9\DShowNET\bin\Debug\DShowNET.dll
+C:\Users\eatamuh\source\repos\DirectX.Capture.v9\DShowNET\bin\Debug\DShowNET.pdb
+C:\Users\eatamuh\source\repos\DirectX.Capture.v9\DShowNET\obj\Debug\DShowNET.csproj.CoreCompileInputs.cache
+C:\Users\eatamuh\source\repos\DirectX.Capture.v9\DShowNET\obj\Debug\DShowNET.dll
+C:\Users\eatamuh\source\repos\DirectX.Capture.v9\DShowNET\obj\Debug\DShowNET.pdb
