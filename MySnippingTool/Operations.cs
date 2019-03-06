@@ -54,7 +54,7 @@ namespace MySnippingTool
 
         #endregion 
 
-        public static Image CaptureScreen(string snippingToolFilePath)
+        public static void CaptureScreen(string snippingToolFilePath, ref Image imgClipboard, ref bool escapeFired)
         {
             using (Process snippingToolProcess = new Process())
             {
@@ -72,15 +72,18 @@ namespace MySnippingTool
                 //Process can not capture exit message of the snipping tool so "while" loop saves us 
                 while (true)
                 {
+                    if (escapeFired)
+                        return;
+
                     if (Clipboard.ContainsImage())
                     {
 
-                        Image imgClipboard = Clipboard.GetImage();
+                        imgClipboard = Clipboard.GetImage();
 
                         //Close it
                         snippingToolProcess.Close();
 
-                        return imgClipboard;
+                        return;
                     }
                 }
 

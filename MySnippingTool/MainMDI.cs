@@ -39,6 +39,11 @@ namespace MySnippingTool
 
         string fileName = "";
 
+        private Thread workerThread = null;
+
+        private bool escapeFired = false;
+
+
         public MainMDI()
         {
             InitializeComponent();
@@ -123,7 +128,35 @@ namespace MySnippingTool
 
             try
             {
-                Image clipboardImg = Operations.CaptureScreen(snippingToolFilePath);
+                // 
+                // globalEventProvider1 -> add event
+                // 
+                this.globalEventProvider1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(globalEventProvider1_KeyPress);
+
+                Image clipboardImg = null;
+
+                workerThread = new Thread(() => Operations.CaptureScreen(snippingToolFilePath, ref clipboardImg, ref escapeFired)) { IsBackground = true };
+                workerThread.SetApartmentState(ApartmentState.STA);
+                workerThread.Start();
+                workerThread.Join();
+
+                if (escapeFired)
+                {
+                    escapeFired = false;
+                    this.globalEventProvider1.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(globalEventProvider1_KeyPress);
+
+                    errorCount = 0;
+
+                    this.WindowState = mainState;
+
+                    //weird workaround
+                    this.TopMost = true;
+                    //it locks other forms to be front later on so
+                    this.TopMost = false;
+
+                    return;
+                }
+                     
                 fileName = $"Temporary Images\\{Guid.NewGuid().ToString()}.jpg";
 
                 clipboardImg.Save(fileName, ImageFormat.Jpeg);
@@ -176,6 +209,14 @@ namespace MySnippingTool
                 //because
                 //this.TopLevel = true;
                 //does not work.
+
+                // 
+                // globalEventProvider1 -> remove event
+                // 
+                this.globalEventProvider1.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(globalEventProvider1_KeyPress);
+
+                if (workerThread.IsAlive)
+                    workerThread.Abort();
 
                 if (form.ClientSize.Width <= 131)
                     MessageBox.Show("very small object is drawn. Image will be adjusted for the window but original size will be kept in case of recording", "Warning", MessageBoxButtons.OK);
@@ -257,7 +298,7 @@ namespace MySnippingTool
                 else
                 {
                     // Determine the active child form  
-                    Form activeChild = this.ActiveMdiChild;
+                    Object activeChild = (sender.GetType() == typeof(Form) || sender.GetType() == typeof(DisplayVideoForm) ? (sender.GetType() == typeof(DisplayVideoForm) ? (DisplayVideoForm)sender : (Form)sender) : this.ActiveMdiChild);
                     
                     // If there is an active child form, find the active control    
                     if (activeChild != null)
@@ -268,7 +309,7 @@ namespace MySnippingTool
                         {
                             #region Save Image 
 
-                            CustomPictureBox pictureBox = (CustomPictureBox)activeChild.Controls[0];
+                            CustomPictureBox pictureBox = (CustomPictureBox)((Form)activeChild).Controls[0];
                             if (pictureBox.isItSaved)
                             {
                                 MessageBox.Show("It is already saved !");
@@ -288,14 +329,14 @@ namespace MySnippingTool
                                 pictureBox.Image.Save(saveFileDialog.FileName);
                                 pictureBox.isItSaved = true;
                                 pictureBox.Refresh();
-                                activeChild.Text = activeChild.Name = Path.GetFileName(saveFileDialog.FileName);
+                                ((Form)activeChild).Text = ((Form)activeChild).Name = Path.GetFileName(saveFileDialog.FileName);
                             }
                             #endregion
                         }
                         else
                         {
                             #region Save Movie
-                            AxWMPLib.AxWindowsMediaPlayer player = (AxWMPLib.AxWindowsMediaPlayer)activeChild.Controls[0];
+                            AxWMPLib.AxWindowsMediaPlayer player = (AxWMPLib.AxWindowsMediaPlayer)((DisplayVideoForm)activeChild).Controls[0];
 
                             if (((DisplayVideoForm)activeChild).isItSaved)
                             {
@@ -315,8 +356,8 @@ namespace MySnippingTool
                             {
                                 File.Copy(player.URL, saveFileDialog.FileName);
                                 ((DisplayVideoForm)activeChild).isItSaved = true;
-                                activeChild.Refresh();
-                                activeChild.Text = activeChild.Name = Path.GetFileName(saveFileDialog.FileName);
+                                ((DisplayVideoForm)activeChild).Refresh();
+                                ((DisplayVideoForm)activeChild).Text = ((DisplayVideoForm)activeChild).Name = Path.GetFileName(saveFileDialog.FileName);
                             }
                             #endregion
                         }
@@ -408,6 +449,7 @@ namespace MySnippingTool
             this.WindowState = FormWindowState.Minimized;
             GetReadyClipboard();
             this.Refresh();
+            Image clipboardImg = null;
 
             fileName = $"Temporary Images\\{Guid.NewGuid().ToString()}.avi";
             // 
@@ -416,8 +458,25 @@ namespace MySnippingTool
             this.globalEventProvider1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseDown);
             this.globalEventProvider1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseUp);
 
-            Thread t = new Thread(() => Operations.CaptureScreen(snippingToolFilePath)) { IsBackground = true };
-            t.Start();
+            this.globalEventProvider1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(globalEventProvider1_KeyPress);
+
+            workerThread = new Thread(() => Operations.CaptureScreen(snippingToolFilePath, ref clipboardImg, ref escapeFired)) { IsBackground = false };
+            workerThread.SetApartmentState(ApartmentState.STA);
+            workerThread.Start();
+            workerThread.Join();
+
+
+            if (escapeFired)
+            {
+                escapeFired = false;
+
+                this.WindowState = mainState;
+                //weird workaround
+                this.TopMost = true;
+                //it locks other forms to be front later on so
+                this.TopMost = false;
+                return;
+            }
 
             Thread t2 = new Thread(() => VideoRecording()) { IsBackground = true };
             t2.Start();
@@ -428,7 +487,8 @@ namespace MySnippingTool
 
         private void VideoRecording()
         {
-            while (videoCapturePanelSize.Height <= 0 && videoCapturePanelSize.Width <= 0) { }
+            while (videoCapturePanelSize.Height <= 0 && videoCapturePanelSize.Width <= 0) { }         
+
             rec = new Recorder(new RecorderParams(fileName, 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70, videoCapturePanelLocation, videoCapturePanelSize), fileName);
 
             // 
@@ -436,16 +496,19 @@ namespace MySnippingTool
             // 
             this.globalEventProvider1.MouseDown -= new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseDown);
             this.globalEventProvider1.MouseUp -= new System.Windows.Forms.MouseEventHandler(this.globalEventProvider1_MouseUp);
-        }
+            this.globalEventProvider1.KeyPress -= new System.Windows.Forms.KeyPressEventHandler(globalEventProvider1_KeyPress);
 
-        public void StopRecord()
-        {
-            rec.Dispose();
         }
 
         public void StopToolStripButton_Click(object sender, EventArgs e)
         {
-            rec.Dispose();
+
+            if (workerThread != null && workerThread.IsAlive)
+                workerThread.Abort();
+
+            if (rec != null)
+                rec.Dispose();
+
 
             //display it in the form
             // 
@@ -498,6 +561,14 @@ namespace MySnippingTool
             videoCapturePanelSize = new Size(Math.Abs(e.X - videoCapturePanelLocation.X), Math.Abs(e.Y - videoCapturePanelLocation.Y));
         }
 
+        private void globalEventProvider1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Escape)
+                escapeFired = true;                
+        }
+
+        
+
         private void globalEventProvider1_MouseDown(object sender, MouseEventArgs e)
         {
             videoCapturePanelLocation = new Point(e.X, e.Y);
@@ -508,5 +579,6 @@ namespace MySnippingTool
             if (!NewRecordToolStripButton.Enabled)
                 StopToolStripButton_Click(sender, e);
         }
+       
     }
 }
