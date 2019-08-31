@@ -67,7 +67,7 @@
             this.toolStripSeparator2});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1040, 27);
+            this.toolStrip.Size = new System.Drawing.Size(780, 27);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
             // 
@@ -182,29 +182,29 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 615);
+            this.statusStrip.Location = new System.Drawing.Point(0, 498);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1040, 25);
+            this.statusStrip.Size = new System.Drawing.Size(780, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "StatusStrip";
             // 
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(49, 20);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
             // MainMDI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1040, 640);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(780, 520);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainMDI";
             this.Text = "My Snipping Tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMDI_FormClosing);
