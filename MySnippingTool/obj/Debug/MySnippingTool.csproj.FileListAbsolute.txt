@@ -34,3 +34,4 @@ C:\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csproj.Ge
 C:\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.csproj.CopyComplete
 C:\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.exe
 C:\source\repos\MySnippingTool\MySnippingTool\obj\Debug\MySnippingTool.pdb
+C:\source\repos\MySnippingTool\MySnippingTool\bin\Debug\Interop.WMPLib.dll
