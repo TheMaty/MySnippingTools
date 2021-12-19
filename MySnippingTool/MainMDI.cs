@@ -74,6 +74,8 @@ namespace MySnippingTool
                 snippingToolFilePath = @"C:\windows\sysnative\SnippingTool.exe";
             else if (File.Exists(@"C:\windows\system32\SnippingTool.exe"))
                 snippingToolFilePath = @"C:\windows\system32\SnippingTool.exe";
+            else if (File.Exists(@"C:\Windows.old\windows\system32\SnippingTool.exe"))
+                snippingToolFilePath = @"C:\Windows.old\windows\system32\SnippingTool.exe";
             else
             {
                 MessageBox.Show("SnippingTool does not exist in the windows, please install it first. Application is closing...");
