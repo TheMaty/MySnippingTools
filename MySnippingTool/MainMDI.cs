@@ -43,6 +43,8 @@ namespace MySnippingTool
 
         private bool escapeFired = false;
 
+        private short delay = 0;
+
 
         public MainMDI()
         {
@@ -76,6 +78,8 @@ namespace MySnippingTool
                 snippingToolFilePath = @"C:\windows\system32\SnippingTool.exe";
             else if (File.Exists(@"C:\Windows.old\windows\system32\SnippingTool.exe"))
                 snippingToolFilePath = @"C:\Windows.old\windows\system32\SnippingTool.exe";
+            else if (File.Exists(@"C:\Program Files\WindowsApps\Microsoft.ScreenSketch_11.2201.12.0_x64__8wekyb3d8bbwe\ScreenSketch.exe")) // Windows 11
+                snippingToolFilePath = @"C:\Program Files\WindowsApps\Microsoft.ScreenSketch_11.2201.12.0_x64__8wekyb3d8bbwe\ScreenSketch.exe";
             else
             {
                 MessageBox.Show("SnippingTool does not exist in the windows, please install it first. Application is closing...");
@@ -123,6 +127,8 @@ namespace MySnippingTool
         }
         private void ShowNewForm(object sender, EventArgs e)
         {
+            Thread.Sleep(delay * 1000);
+
             mainState = this.WindowState;
             this.WindowState = FormWindowState.Minimized;
             GetReadyClipboard();
@@ -447,6 +453,8 @@ namespace MySnippingTool
 
         private void NewRecordToolStripButton_Click(object sender, EventArgs e)
         {
+            Thread.Sleep(delay * 1000);
+
             mainState = this.WindowState;
             this.WindowState = FormWindowState.Minimized;
             GetReadyClipboard();
@@ -581,6 +589,11 @@ namespace MySnippingTool
             if (!NewRecordToolStripButton.Enabled)
                 StopToolStripButton_Click(sender, e);
         }
-       
+
+        private void toolStripDropDownButtonDelay_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            delay = short.Parse(e.ClickedItem.ToolTipText);
+            toolStripDropDownButtonDelay.ToolTipText = (delay == 0 ? "No delay" : e.ClickedItem.ToolTipText + " sec. delay");
+        }
     }
 }

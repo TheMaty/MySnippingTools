@@ -56,38 +56,63 @@ namespace MySnippingTool
 
         public static void CaptureScreen(string snippingToolFilePath, ref Image imgClipboard, ref bool escapeFired)
         {
-            using (Process snippingToolProcess = new Process())
+            if (!snippingToolFilePath.Contains("ScreenSketch.exe")) // earlier than windows 11
             {
-                // Get the process start information of snippingTool.
-                ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(snippingToolFilePath, "/clip");
-
-                // Assign 'StartInfo' of notepad to 'StartInfo' of 'Process' object.
-                snippingToolProcess.StartInfo = myProcessStartInfo;
-
-                // Create a SnippingTool.
-                snippingToolProcess.Start();
-
-
-                //save clipboard to a file in temporary folder
-                //Process can not capture exit message of the snipping tool so "while" loop saves us 
-                while (true)
+                using (Process snippingToolProcess = new Process())
                 {
-                    if (escapeFired)
-                        return;
+                    // Get the process start information of snippingTool.
+                    ProcessStartInfo myProcessStartInfo = new ProcessStartInfo(snippingToolFilePath, "/clip");
 
-                    if (Clipboard.ContainsImage())
+                    // Assign 'StartInfo' of notepad to 'StartInfo' of 'Process' object.
+                    snippingToolProcess.StartInfo = myProcessStartInfo;
+
+                    // Create a SnippingTool.
+                    snippingToolProcess.Start();
+
+
+                    //save clipboard to a file in temporary folder
+                    //Process can not capture exit message of the snipping tool so "while" loop saves us 
+                    while (true)
                     {
+                        if (escapeFired)
+                            return;
 
-                        imgClipboard = Clipboard.GetImage();
+                        if (Clipboard.ContainsImage())
+                        {
 
-                        //Close it
-                        snippingToolProcess.Close();
+                            imgClipboard = Clipboard.GetImage();
 
-                        return;
+                            //Close it
+                            snippingToolProcess.Close();
+
+                            return;
+                        }
                     }
-                }
 
+                }
             }
+            else //windows 11
+            {                  
+                using (Process.Start("ms-screenclip:"))
+                {
+                    //save clipboard to a file in temporary folder
+                    //Process can not capture exit message of the snipping tool so "while" loop saves us 
+                    while (true)
+                    {
+                        if (escapeFired)
+                            return;
+
+                        if (Clipboard.ContainsImage())
+                        {
+                            imgClipboard = Clipboard.GetImage();
+                            return;
+                        }
+                    }
+
+                }
+            }
+
+            
         }
 
         public static Image CaptureScreen(int x, int y, int wid, int hei)

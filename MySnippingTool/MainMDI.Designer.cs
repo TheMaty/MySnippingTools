@@ -46,6 +46,13 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
+            this.toolStripDropDownButtonDelay = new System.Windows.Forms.ToolStripDropDownButton();
+            this.noDelayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oneSecondToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.twoSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.threeSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fiveSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eightSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -63,8 +70,9 @@
             this.SaveAlltoolStripButton,
             this.toolStripButtonClose,
             this.toolStripButtonCloseAll,
-            this.toolStripAboutButton,
-            this.toolStripSeparator2});
+            this.toolStripDropDownButtonDelay,
+            this.toolStripSeparator2,
+            this.toolStripAboutButton});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(780, 27);
@@ -194,6 +202,67 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
             this.toolStripStatusLabel.Text = "Status";
             // 
+            // toolStripDropDownButtonDelay
+            // 
+            this.toolStripDropDownButtonDelay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButtonDelay.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.noDelayToolStripMenuItem,
+            this.oneSecondToolStripMenuItem,
+            this.twoSecondsToolStripMenuItem,
+            this.threeSecondsToolStripMenuItem,
+            this.fiveSecondsToolStripMenuItem,
+            this.eightSecondsToolStripMenuItem});
+            this.toolStripDropDownButtonDelay.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonDelay.Image")));
+            this.toolStripDropDownButtonDelay.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonDelay.Name = "toolStripDropDownButtonDelay";
+            this.toolStripDropDownButtonDelay.Size = new System.Drawing.Size(33, 24);
+            this.toolStripDropDownButtonDelay.Text = "No delay";
+            this.toolStripDropDownButtonDelay.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.toolStripDropDownButtonDelay.ToolTipText = "No delay";
+            this.toolStripDropDownButtonDelay.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStripDropDownButtonDelay_DropDownItemClicked);
+            // 
+            // noDelayToolStripMenuItem
+            // 
+            this.noDelayToolStripMenuItem.Name = "noDelayToolStripMenuItem";
+            this.noDelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.noDelayToolStripMenuItem.Text = "No Delay";
+            this.noDelayToolStripMenuItem.ToolTipText = "0";
+            // 
+            // oneSecondToolStripMenuItem
+            // 
+            this.oneSecondToolStripMenuItem.Name = "oneSecondToolStripMenuItem";
+            this.oneSecondToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oneSecondToolStripMenuItem.Text = "1 Second";
+            this.oneSecondToolStripMenuItem.ToolTipText = "1";
+            // 
+            // twoSecondsToolStripMenuItem
+            // 
+            this.twoSecondsToolStripMenuItem.Name = "twoSecondsToolStripMenuItem";
+            this.twoSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.twoSecondsToolStripMenuItem.Text = "2 Seconds";
+            this.twoSecondsToolStripMenuItem.ToolTipText = "2";
+            // 
+            // threeSecondsToolStripMenuItem
+            // 
+            this.threeSecondsToolStripMenuItem.Name = "threeSecondsToolStripMenuItem";
+            this.threeSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.threeSecondsToolStripMenuItem.Text = "3 Seconds";
+            this.threeSecondsToolStripMenuItem.ToolTipText = "3";
+            // 
+            // fiveSecondsToolStripMenuItem
+            // 
+            this.fiveSecondsToolStripMenuItem.Name = "fiveSecondsToolStripMenuItem";
+            this.fiveSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fiveSecondsToolStripMenuItem.Text = "5 Seconds";
+            this.fiveSecondsToolStripMenuItem.ToolTipText = "5";
+            // 
+            // eightSecondsToolStripMenuItem
+            // 
+            this.eightSecondsToolStripMenuItem.Name = "eightSecondsToolStripMenuItem";
+            this.eightSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eightSecondsToolStripMenuItem.Text = "8 Seconds";
+            this.eightSecondsToolStripMenuItem.ToolTipText = "8";
+            // 
             // MainMDI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,6 +304,13 @@
         private System.Windows.Forms.ToolStripButton NewRecordToolStripButton;
         private System.Windows.Forms.ToolStripButton StopToolStripButton;
         private Gma.UserActivityMonitor.GlobalEventProvider globalEventProvider1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonDelay;
+        private System.Windows.Forms.ToolStripMenuItem noDelayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oneSecondToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem twoSecondsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem threeSecondsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fiveSecondsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem eightSecondsToolStripMenuItem;
     }
 }
 
