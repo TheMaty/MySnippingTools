@@ -177,11 +177,11 @@ namespace MySnippingTool
                 pictureBox.Location = new System.Drawing.Point(0, 0);
                 pictureBox.Name = $"pictureBox_{DateTime.Now.ToString("yyyyMMddmmhhfff")}";
                 pictureBox.TabStop = false;
-                pictureBox.Image = Image.FromFile(fileName);
+                pictureBox.ImageLocation = fileName;
+                pictureBox.Image = Image.FromFile(pictureBox.ImageLocation);
                 pictureBox.ClientSize = pictureBox.Image.Size;
                 pictureBox.Paint += PictureBox_Paint;
                 pictureBox.isItSaved = false;
-
                 // 
                 // Form
                 // 
@@ -594,6 +594,53 @@ namespace MySnippingTool
         {
             delay = short.Parse(e.ClickedItem.ToolTipText);
             toolStripDropDownButtonDelay.ToolTipText = (delay == 0 ? "No delay" : e.ClickedItem.ToolTipText + " sec. delay");
+        }
+
+        private void toolStripButtonMSPaintOpener_Click(object sender, EventArgs e)
+        {
+            if (fileName == String.Empty)
+                return;
+
+            using (Process mspaintProcess = new Process())
+            {
+                // Get the process start information of snippingTool.
+                ProcessStartInfo myProcessStartInfo = new ProcessStartInfo("mspaint.exe", @"""" + Application.StartupPath + "\\" + fileName + @"""");
+                myProcessStartInfo.UseShellExecute = true;
+
+                // Assign 'StartInfo' of mspaint to 'StartInfo' of 'Process' object.
+                mspaintProcess.StartInfo = myProcessStartInfo;
+
+                // Create a SnippingTool.
+                mspaintProcess.Start();
+            }
+        }
+
+        private void MainMDI_MdiChildActivate(object sender, EventArgs e)
+        {
+            // Determine the active child form  
+            Object activeChild = (sender.GetType() == typeof(Form) || sender.GetType() == typeof(DisplayVideoForm) ? (sender.GetType() == typeof(DisplayVideoForm) ? (DisplayVideoForm)sender : (Form)sender) : this.ActiveMdiChild);
+
+            // If there is an active child form, find the active control    
+            if (activeChild != null)
+            {
+                if (activeChild.GetType() != typeof(DisplayVideoForm))
+                {
+                    #region Image
+                    toolStripButtonMSPaintOpener.Enabled = true;
+
+                    fileName = ((CustomPictureBox)((Form)activeChild).Controls[0]).ImageLocation;
+                    #endregion
+                }
+                else
+                {
+                    #region Save Movie
+                    toolStripButtonMSPaintOpener.Enabled = false;
+                    #endregion
+                }
+            }
+            else
+                //default is acting as image
+                toolStripButtonMSPaintOpener.Enabled = true;
         }
     }
 }

@@ -40,12 +40,6 @@
             this.SaveAlltoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonClose = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCloseAll = new System.Windows.Forms.ToolStripButton();
-            this.toolStripAboutButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
             this.toolStripDropDownButtonDelay = new System.Windows.Forms.ToolStripDropDownButton();
             this.noDelayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oneSecondToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +47,14 @@
             this.threeSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fiveSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eightSecondsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripAboutButton = new System.Windows.Forms.ToolStripButton();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonMSPaintOpener = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -65,11 +67,13 @@
             this.NewRecordToolStripButton,
             this.StopToolStripButton,
             this.openToolStripButton,
-            this.saveToolStripButton,
             this.toolStripSeparator1,
+            this.saveToolStripButton,
             this.SaveAlltoolStripButton,
             this.toolStripButtonClose,
             this.toolStripButtonCloseAll,
+            this.toolStripSeparator3,
+            this.toolStripButtonMSPaintOpener,
             this.toolStripDropDownButtonDelay,
             this.toolStripSeparator2,
             this.toolStripAboutButton});
@@ -170,38 +174,6 @@
             this.toolStripButtonCloseAll.Text = "Close All";
             this.toolStripButtonCloseAll.Click += new System.EventHandler(this.toolStripButtonCloseAll_Click);
             // 
-            // toolStripAboutButton
-            // 
-            this.toolStripAboutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripAboutButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripAboutButton.Image")));
-            this.toolStripAboutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripAboutButton.Name = "toolStripAboutButton";
-            this.toolStripAboutButton.Size = new System.Drawing.Size(24, 24);
-            this.toolStripAboutButton.Text = "About";
-            this.toolStripAboutButton.Click += new System.EventHandler(this.toolStripAboutButton_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 498);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(780, 22);
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "StatusStrip";
-            // 
-            // toolStripStatusLabel
-            // 
-            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
-            this.toolStripStatusLabel.Text = "Status";
-            // 
             // toolStripDropDownButtonDelay
             // 
             this.toolStripDropDownButtonDelay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -224,44 +196,91 @@
             // noDelayToolStripMenuItem
             // 
             this.noDelayToolStripMenuItem.Name = "noDelayToolStripMenuItem";
-            this.noDelayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.noDelayToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.noDelayToolStripMenuItem.Text = "No Delay";
             this.noDelayToolStripMenuItem.ToolTipText = "0";
             // 
             // oneSecondToolStripMenuItem
             // 
             this.oneSecondToolStripMenuItem.Name = "oneSecondToolStripMenuItem";
-            this.oneSecondToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.oneSecondToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.oneSecondToolStripMenuItem.Text = "1 Second";
             this.oneSecondToolStripMenuItem.ToolTipText = "1";
             // 
             // twoSecondsToolStripMenuItem
             // 
             this.twoSecondsToolStripMenuItem.Name = "twoSecondsToolStripMenuItem";
-            this.twoSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.twoSecondsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.twoSecondsToolStripMenuItem.Text = "2 Seconds";
             this.twoSecondsToolStripMenuItem.ToolTipText = "2";
             // 
             // threeSecondsToolStripMenuItem
             // 
             this.threeSecondsToolStripMenuItem.Name = "threeSecondsToolStripMenuItem";
-            this.threeSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.threeSecondsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.threeSecondsToolStripMenuItem.Text = "3 Seconds";
             this.threeSecondsToolStripMenuItem.ToolTipText = "3";
             // 
             // fiveSecondsToolStripMenuItem
             // 
             this.fiveSecondsToolStripMenuItem.Name = "fiveSecondsToolStripMenuItem";
-            this.fiveSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fiveSecondsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.fiveSecondsToolStripMenuItem.Text = "5 Seconds";
             this.fiveSecondsToolStripMenuItem.ToolTipText = "5";
             // 
             // eightSecondsToolStripMenuItem
             // 
             this.eightSecondsToolStripMenuItem.Name = "eightSecondsToolStripMenuItem";
-            this.eightSecondsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eightSecondsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.eightSecondsToolStripMenuItem.Text = "8 Seconds";
             this.eightSecondsToolStripMenuItem.ToolTipText = "8";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripAboutButton
+            // 
+            this.toolStripAboutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripAboutButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripAboutButton.Image")));
+            this.toolStripAboutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripAboutButton.Name = "toolStripAboutButton";
+            this.toolStripAboutButton.Size = new System.Drawing.Size(24, 24);
+            this.toolStripAboutButton.Text = "About";
+            this.toolStripAboutButton.Click += new System.EventHandler(this.toolStripAboutButton_Click);
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 498);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(780, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "StatusStrip";
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
+            this.toolStripStatusLabel.Text = "Status";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripButtonMSPaintOpener
+            // 
+            this.toolStripButtonMSPaintOpener.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMSPaintOpener.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonMSPaintOpener.Image")));
+            this.toolStripButtonMSPaintOpener.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMSPaintOpener.Name = "toolStripButtonMSPaintOpener";
+            this.toolStripButtonMSPaintOpener.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButtonMSPaintOpener.Text = "Open with MS Paint";
+            this.toolStripButtonMSPaintOpener.Click += new System.EventHandler(this.toolStripButtonMSPaintOpener_Click);
             // 
             // MainMDI
             // 
@@ -277,6 +296,7 @@
             this.Name = "MainMDI";
             this.Text = "My Snipping Tool";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMDI_FormClosing);
+            this.MdiChildActivate += new System.EventHandler(this.MainMDI_MdiChildActivate);
             this.Layout += new System.Windows.Forms.LayoutEventHandler(this.MainMDI_Layout);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
@@ -311,6 +331,8 @@
         private System.Windows.Forms.ToolStripMenuItem threeSecondsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fiveSecondsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eightSecondsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton toolStripButtonMSPaintOpener;
     }
 }
 
