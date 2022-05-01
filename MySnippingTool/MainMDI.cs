@@ -78,7 +78,9 @@ namespace MySnippingTool
                 snippingToolFilePath = @"C:\windows\system32\SnippingTool.exe";
             else if (File.Exists(@"C:\Windows.old\windows\system32\SnippingTool.exe"))
                 snippingToolFilePath = @"C:\Windows.old\windows\system32\SnippingTool.exe";
-            // no need to check path control for Windows 11
+            //no need to check path for Windows 11
+            else
+                snippingToolFilePath = @"ScreenSketch.exe";
             //else if (File.Exists(@"C:\Program Files\WindowsApps\Microsoft.ScreenSketch_11.2201.12.0_x64__8wekyb3d8bbwe\ScreenSketch.exe")) // Windows 11
             //    snippingToolFilePath = @"C:\Program Files\WindowsApps\Microsoft.ScreenSketch_11.2201.12.0_x64__8wekyb3d8bbwe\ScreenSketch.exe";
             //else
