@@ -42,7 +42,6 @@ C:\source\repos\MySnippingTools\MySnippingTool\bin\Debug\AxInterop.WMPLib.dll
 C:\source\repos\MySnippingTools\MySnippingTool\bin\Debug\Gma.UserActivityMonitor.dll
 C:\source\repos\MySnippingTools\MySnippingTool\bin\Debug\Interop.WMPLib.dll
 C:\source\repos\MySnippingTools\MySnippingTool\bin\Debug\SharpAvi.dll
-C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.csproj.AssemblyReference.cache
 C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.csproj.SuggestedBindingRedirects.cache
 C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.DisplayVideoForm.resources
 C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.MainMDI.resources
@@ -53,3 +52,4 @@ C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.csproj.C
 C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.csproj.CopyComplete
 C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.exe
 C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.pdb
+C:\source\repos\MySnippingTools\MySnippingTool\obj\Debug\MySnippingTool.csproj.AssemblyReference.cache
